@@ -82,11 +82,11 @@ skeleton = NodePath("../..")
 [node name="Entities" type="Node3D" parent="."]
 
 [node name="Enemy" parent="Entities" instance=ExtResource("3_135xi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, -8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, -8)
 typing_challenges_texts = Array[String](["Supercali"])
 
 [node name="Enemy2" parent="Entities" instance=ExtResource("3_135xi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, -8)
 typing_challenges_texts = Array[String](["Fragile", "Memoir"])
 
 [node name="Enemy3" parent="Entities" instance=ExtResource("3_135xi")]
