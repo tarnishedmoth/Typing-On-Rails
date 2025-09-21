@@ -1,0 +1,95 @@
+[gd_scene load_steps=14 format=3 uid="uid://d3e7yvbpcto5p"]
+
+[ext_resource type="Script" uid="uid://dpy8vcfapm0of" path="res://level.gd" id="1_5u0e2"]
+[ext_resource type="PackedScene" uid="uid://dxdxf1xa7fnop" path="res://player/player.tscn" id="2_f0adh"]
+[ext_resource type="Script" uid="uid://b5cr7gwku2mq4" path="res://player/player.gd" id="3_135xi"]
+[ext_resource type="Script" uid="uid://chn8ysiddjt70" path="res://enemy/enemy.gd" id="4_klkcg"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5u0e2"]
+sky_top_color = Color(0.23794875, 0.14084059, 0.21486962, 1)
+sky_horizon_color = Color(0.5015179, 0.48542348, 0.49052706, 1)
+ground_bottom_color = Color(0.2628847, 0.29561532, 0.24200076, 1)
+ground_horizon_color = Color(0.5015179, 0.48542348, 0.49052706, 1)
+
+[sub_resource type="Sky" id="Sky_f0adh"]
+sky_material = SubResource("ProceduralSkyMaterial_5u0e2")
+
+[sub_resource type="Environment" id="Environment_135xi"]
+background_mode = 2
+sky = SubResource("Sky_f0adh")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_5u0e2"]
+offsets = PackedFloat32Array(0, 0.28284672, 0.51277375, 0.7791971, 1)
+colors = PackedColorArray(0.9008265, 0.9008265, 0.9008265, 1, 0.5073144, 0.5073145, 0.50731426, 1, 0.7591837, 0.7591837, 0.7591837, 1, 0.3987929, 0.39879292, 0.3987929, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_f0adh"]
+gradient = SubResource("Gradient_5u0e2")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5u0e2"]
+albedo_color = Color(0.46423483, 0.46423513, 0.46423507, 1)
+albedo_texture = SubResource("GradientTexture1D_f0adh")
+uv1_scale = Vector3(16, 16, 16)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_f0adh"]
+material = SubResource("StandardMaterial3D_5u0e2")
+size = Vector2(100, 100)
+subdivide_width = 8
+subdivide_depth = 8
+
+[sub_resource type="BoxMesh" id="BoxMesh_5u0e2"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="SphereMesh" id="SphereMesh_klkcg"]
+radius = 1.0
+height = 2.0
+
+[node name="LevelPrototype" type="Node3D"]
+script = ExtResource("1_5u0e2")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_135xi")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.50603384, -0.2550522, 0.8239406, 0, 0.95527834, 0.29570803, -0.8625136, 0.14963827, -0.48340318, 0, 0, 0)
+light_color = Color(0.9717787, 0.9485679, 0.7177571, 1)
+light_energy = 2.0
+shadow_enabled = true
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_f0adh")
+
+[node name="Props" type="Node3D" parent="."]
+
+[node name="Cube" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1, -24)
+mesh = SubResource("BoxMesh_5u0e2")
+skeleton = NodePath("../..")
+
+[node name="Cube2" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, -24)
+mesh = SubResource("BoxMesh_5u0e2")
+skeleton = NodePath("../..")
+
+[node name="Cube3" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, -24)
+mesh = SubResource("BoxMesh_5u0e2")
+skeleton = NodePath("../..")
+
+[node name="Cube4" type="MeshInstance3D" parent="Props"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1, -24)
+mesh = SubResource("BoxMesh_5u0e2")
+skeleton = NodePath("../..")
+
+[node name="Player" parent="." instance=ExtResource("2_f0adh")]
+script = ExtResource("3_135xi")
+
+[node name="Entities" type="Node3D" parent="."]
+
+[node name="Enemy" type="Node3D" parent="Entities"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("4_klkcg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Entities/Enemy"]
+mesh = SubResource("SphereMesh_klkcg")
