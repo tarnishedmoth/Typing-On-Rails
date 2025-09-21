@@ -15,5 +15,6 @@ signal level_failed(level:Level)
 ## Metrics
 signal points_changed(value:int)
 signal health_changed(value:int)
+
 signal enemy_killed(enemy:Enemy)
-signal checkpoint_reached
+signal enemy_dealt_damage(amount:int, enemy:Enemy)

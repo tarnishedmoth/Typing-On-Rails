@@ -33,3 +33,6 @@ func take_damage(amount:int) -> void:
 	
 func die() -> void:
 	print("Player died.")
+
+func _on_enemy_dealt_damage(amount:int, _enemy:Enemy) -> void:
+	take_damage(amount)

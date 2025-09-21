@@ -1,8 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://d3e7yvbpcto5p"]
+[gd_scene load_steps=12 format=3 uid="uid://d3e7yvbpcto5p"]
 
 [ext_resource type="Script" uid="uid://dpy8vcfapm0of" path="res://level.gd" id="1_5u0e2"]
 [ext_resource type="PackedScene" uid="uid://dxdxf1xa7fnop" path="res://player/player.tscn" id="2_f0adh"]
-[ext_resource type="Script" uid="uid://chn8ysiddjt70" path="res://enemy/enemy.gd" id="4_klkcg"]
+[ext_resource type="PackedScene" uid="uid://v5og2k0k34wx" path="res://enemy/enemy.tscn" id="3_135xi"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5u0e2"]
 sky_top_color = Color(0.23794875, 0.14084059, 0.21486962, 1)
@@ -39,10 +39,6 @@ subdivide_depth = 8
 
 [sub_resource type="BoxMesh" id="BoxMesh_5u0e2"]
 size = Vector3(2, 2, 2)
-
-[sub_resource type="SphereMesh" id="SphereMesh_klkcg"]
-radius = 1.0
-height = 2.0
 
 [node name="LevelPrototype" type="Node3D"]
 script = ExtResource("1_5u0e2")
@@ -85,9 +81,5 @@ skeleton = NodePath("../..")
 
 [node name="Entities" type="Node3D" parent="."]
 
-[node name="Enemy" type="Node3D" parent="Entities"]
+[node name="Enemy" parent="Entities" instance=ExtResource("3_135xi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -8)
-script = ExtResource("4_klkcg")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Entities/Enemy"]
-mesh = SubResource("SphereMesh_klkcg")
