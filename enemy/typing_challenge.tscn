@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://dhig2eo2ve6vi"]
+
+[ext_resource type="Script" uid="uid://bxmpymj0vknlh" path="res://enemy/typing_display.gd" id="1_p2ljh"]
+
+[node name="TypingChallenge" type="Node3D" node_paths=PackedStringArray("display")]
+script = ExtResource("1_p2ljh")
+display = NodePath("Label3D")
+metadata/_custom_type_script = "uid://bxmpymj0vknlh"
+
+[node name="Label3D" type="Label3D" parent="."]
+billboard = 1
+no_depth_test = true
+text = "Testing"

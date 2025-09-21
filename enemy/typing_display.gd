@@ -4,17 +4,10 @@ signal completed(node: TypingChallenge)
 signal failed(node: TypingChallenge)
 
 @export var display:Label3D # Might want to use something other than Label3D later.
-@export var text_to_enter:String
+@export var text_to_enter:String # Probably will set this procedurally, but leaving this option for hand-crafted levels.
 
 var enabled:bool = false
 var character_index:int = 0
-
-var _level:Level
-var _player:Player
-
-func _enter_tree() -> void:
-	SignalBus.level_ready.connect(_on_level_ready)
-	SignalBus.player_ready_to_play.connect(_on_player_ready_to_play)
 	
 func _unhandled_key_input(event: InputEvent) -> void:
 	if enabled:
@@ -69,9 +62,3 @@ func reset() -> void:
 func destroy() -> void:
 	# Some sort of visual effect
 	queue_free()
-	
-func _on_level_ready(level:Level) -> void:
-	_level = level
-
-func _on_player_ready_to_play(player:Player) -> void:
-	_player = player

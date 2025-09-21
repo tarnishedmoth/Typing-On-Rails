@@ -1,12 +1,18 @@
 class_name Enemy extends Node3D
 
-@export var typing_challenges:Array[TypingChallenge]
+@export_group("Prerequisites")
+@export var typing_challenge_scene:PackedScene ## Instantiated for each.
+@export var challenges_node: Node3D
+
+@export_group("Challenge")
+@export var typing_challenges_texts:Array[String]
+var typing_challenges:Array[TypingChallenge]
 var current_challenge:TypingChallenge
 
 @export var max_failures:int = 2
-
 @export var damage_range:Vector2i = Vector2i(1, 5) ## Min and max damage dealt.
 
+@export_group("Movement")
 ## How quickly the tween moves this node to the next position.
 @export var move_duration:float = 1.25
 
@@ -25,16 +31,29 @@ var move_timer:Timer
 var failures:int = 0
 
 var _level:Level
-
 @onready var start_position:Vector3 = position
 
 func _enter_tree() -> void:
+	if not typing_challenge_scene:
+		push_error("Scene must be assigned to export property!")
+		queue_free()
+		return
+	
 	SignalBus.level_started.connect(start)
+	
+	for item in typing_challenges_texts:
+		# Instantiate and setup a typing challenge scene prefab.
+		var challenge = typing_challenge_scene.instantiate()
+		challenge.text_to_enter = item
+		challenges_node.add_child(challenge)
+		challenge.hide()
+		typing_challenges.append(challenge)
 
 func _ready() -> void:
 	# Connect typing capture nodes
 	for challenge in typing_challenges:
 		challenge.completed.connect(_on_challenge_completed)
+		challenge.failed.connect(_on_challenge_failed)
 	
 	# Set up timer
 	move_timer = Timer.new()
@@ -53,6 +72,7 @@ func next_typing_challenge() -> void:
 		die()
 	else:
 		current_challenge.reset()
+		current_challenge.show()
 		current_challenge.enable_input()
 		
 func die() -> void:
@@ -90,12 +110,18 @@ func _on_challenge_completed(challenge:TypingChallenge) -> void:
 	challenge.destroy()
 	next_typing_challenge()
 
-func _on_challenge_failed(challenge:TypingChallenge) -> void:
-	failures += 1
+func _on_challenge_failed(_challenge:TypingChallenge) -> void:
+	return
 	
-	deal_damage(randi_range(damage_range.x, damage_range.y))
+	# Don't think I like this idea. I want to have multiple enemies on screen
+	# and the ability to type at multiple when they share characters in their text.
 	
-	if not failures > max_failures:
-		challenge.reset()
-	else:
-		next_typing_challenge()
+	# Count failures and deal damage each time.
+	#failures += 1
+	#
+	#deal_damage(randi_range(damage_range.x, damage_range.y))
+	#
+	#if not failures > max_failures:
+		#challenge.reset()
+	#else:
+		#next_typing_challenge()
