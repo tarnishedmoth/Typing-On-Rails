@@ -17,6 +17,8 @@ var move_timer:Timer
 
 var _level:Level
 
+@onready var start_position:Vector3 = position
+
 func _enter_tree() -> void:
 	SignalBus.level_started.connect(start)
 
@@ -33,8 +35,8 @@ func start(level:Level) -> void:
 func move_to(point:Vector3, duration:float = move_duration) -> void:
 	check_kill_tween(move_tween)
 	move_tween = create_tween()
-	move_tween.tween_property(self, ^"position", point, duration)
 	move_tween.set_trans(Tween.TRANS_CUBIC)
+	move_tween.tween_property(self, ^"position", start_position+point, duration)
 	move_tween.tween_callback(move_timer.start.bind(wait_duration))
 	
 func move_to_next() -> void:

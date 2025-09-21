@@ -1,3 +1,18 @@
-[gd_scene format=3 uid="uid://dxdxf1xa7fnop"]
+[gd_scene load_steps=3 format=3 uid="uid://dxdxf1xa7fnop"]
+
+[ext_resource type="Script" uid="uid://b5cr7gwku2mq4" path="res://player/player.gd" id="1_oul6g"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_kqu6x"]
+size = Vector3(0.25, 1, 0.25)
 
 [node name="Player" type="Node3D"]
+script = ExtResource("1_oul6g")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+doppler_tracking = 1
+current = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_kqu6x")
